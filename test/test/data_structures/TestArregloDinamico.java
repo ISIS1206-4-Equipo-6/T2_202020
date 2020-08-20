@@ -19,7 +19,7 @@ public class TestArregloDinamico {
 
 	public void setUp2() {
 		for(int i =0; i< TAMANO*2; i++){
-			arreglo.agregar(""+i);
+			arreglo.agregar(i);
 		}
 	}
 
@@ -37,7 +37,7 @@ public class TestArregloDinamico {
 		// TODO
 		assertEquals(arreglo.darCapacidad(),200);
 		assertEquals(arreglo.darTamano(),200);
-		assertEquals(arreglo.darElemento(199),"199");
+		assertEquals(arreglo.darElemento(199),199);
 		
 	}
 

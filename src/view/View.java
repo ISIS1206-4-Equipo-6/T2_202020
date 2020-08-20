@@ -31,9 +31,10 @@ public class View
 		public void printModelo(Modelo modelo)
 		{
 			// TODO implementar
-			for(int i=0; i<modelo.darTamano; i++)
+			int tam = modelo.darTamano();
+			for(int i=0; i<tam; i++)
 			{
-				printMessage(modelo.datos.darElemento(i));
+				printMessage(" "+modelo.datos.darElemento(i));
 			}
 		}
 }

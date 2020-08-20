@@ -14,11 +14,12 @@ public class TestModelo {
 	@Before
 	public void setUp1() {
 		modelo= new Modelo(CAPACIDAD);
+		System.out.println("Llegué aca 1");
 	}
 
 	public void setUp2() {
 		for(int i =0; i< CAPACIDAD;i++){
-			modelo.agregar(""+i);
+			modelo.agregar(i);
 		}
 	}
 
@@ -40,7 +41,7 @@ public class TestModelo {
 	public void testAgregar() {
 		// TODO Completar la prueba
 		assertTrue(modelo!=null);
-		String dato = "Esto es un dato";
+		int dato = 2020;
 		modelo.agregar(dato);
 		assertTrue(modelo.darTamano()>0);
 		assertTrue(modelo.buscar(dato)!=null);
@@ -49,7 +50,7 @@ public class TestModelo {
 	@Test
 	public void testBuscar() {
 		setUp2();
-		String dato = "3";
+		int dato = 3;
 		assertTrue(modelo.buscar(dato)!=null);
 	}
 
@@ -57,8 +58,11 @@ public class TestModelo {
 	public void testEliminar() {
 		setUp2();
 //		// TODO Completar la prueba
-		String dato = "3";
+		int dato = 1;
+		System.out.println(modelo.darTamano());
 		assertTrue(modelo.eliminar(dato)!=null);
+		System.out.println(modelo.darTamano());
+		assertEquals(modelo.darTamano(),CAPACIDAD-1);
 		assertTrue(modelo.buscar(dato)==null);
 		
 	}

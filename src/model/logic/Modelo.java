@@ -7,12 +7,13 @@ import model.data_structures.IArregloDinamico;
  * Definicion del modelo del mundo
  *
  */
-public class Modelo {
+@SuppressWarnings("hiding")
+public class Modelo{
 	/**
 	 * Atributos del modelo del mundo
 	 */
 	public IArregloDinamico datos;
-
+	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
@@ -20,7 +21,7 @@ public class Modelo {
 	{
 		datos = new ArregloDinamico(7);
 	}
-
+	
 	/**
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
@@ -29,9 +30,9 @@ public class Modelo {
 	{
 		datos = new ArregloDinamico(capacidad);
 	}
-
+	
 	/**
-	 * Servicio de consulta de numero de elementos presentes en el modelo
+	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
 	 */
 	public int darTamano()
@@ -43,29 +44,30 @@ public class Modelo {
 	 * Requerimiento de agregar dato
 	 * @param dato
 	 */
-	public void agregar(String dato)
-	{
+	public void agregar(Integer dato)
+	{	
 		datos.agregar(dato);
 	}
-
+	
 	/**
 	 * Requerimiento buscar dato
 	 * @param dato Dato a buscar
+	 * @return 
 	 * @return dato encontrado
 	 */
-	public String buscar(String dato)
+	public Integer buscar(int dato)
 	{
-		return datos.buscar(dato);
+		return (Integer) datos.buscar(dato);
 	}
-
+	
 	/**
 	 * Requerimiento eliminar dato
 	 * @param dato Dato a eliminar
 	 * @return dato eliminado
 	 */
-	public String eliminar(String dato)
+	public Integer eliminar(Integer dato)
 	{
-		return datos.eliminar(dato);
+		return (Integer) datos.eliminar(dato);
 	}
 
 
