@@ -125,14 +125,14 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		elementos=nuevo;
 		++tamanoAct;
 	}
-	
+
 	public T removeLast() {
 		T este=elementos[tamanoAct];
 		elementos[tamanoAct-1]=null;
 		tamanoAct--;
 		return este;
 	}
-	
+
 	public T lastElement() {
 		return elementos[tamanoAct-1];
 	}
@@ -144,11 +144,54 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		}
 		return -1;
 	}
-	
+
 	public void changeInfo(int pos, T element) {
 		--pos;
 		elementos[pos]=element;
 	}
-	
+	public void addFirst( T dato )
+	{
+		if ( tamanoAct == tamanoMax )
+			// caso de arreglo lleno (aumentar tamaNo)
+			tamanoMax = 2 * tamanoMax;
 
+		T [ ] copia = elementos;
+		elementos = (T[])new Comparable[tamanoMax];
+		//añade el dato en primera casilla
+		elementos[0] = dato;
+
+		for ( int i = 0; i < tamanoAct; ++i)
+		{
+			elementos[i+1] = copia[i];
+		} 
+
+		tamanoAct++;
+	}
+	public void exchange(int pos1, int pos2 )
+	{
+		--pos1;
+		--pos2;
+		T temp = elementos[pos1];
+		elementos[pos1] = elementos[pos2];
+		elementos[pos2] = temp;
+	}
+	public T removeFirst() {
+		T primer = firstElement();
+		for(int i =1; i< tamanoAct; ++i)
+		{
+			elementos[i-1] = elementos[i]; 
+			// Si el elemento a mover es el ultimo se convierte en null.
+		}
+		elementos[tamanoAct-1] = null;	
+		--tamanoAct;
+		return primer;
+	}
+	public boolean isEmpty()
+	{
+		return (tamanoAct==0)?true:false;
+	}
+	public T firstElement()
+	{
+		return elementos[0];
+	}
 }
