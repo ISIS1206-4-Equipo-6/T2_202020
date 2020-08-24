@@ -43,6 +43,10 @@ public interface IArregloDinamico  <T extends Comparable<T>> {
 	 */
 	T eliminar( T dato );
 	
+	T firstElement();
+	
+	T lastElement();
+	
 	public void insertElement(T dato, int pos);
 
 }

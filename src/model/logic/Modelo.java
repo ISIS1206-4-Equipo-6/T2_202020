@@ -74,24 +74,38 @@ public class Modelo{
 		 datos.insertElement(numero, pos);
 	}
 	
+	public Pelicula firstElement() {
+		return datos.firstElement();
+	}
+	
+	public Pelicula lastElement() {
+		return datos.lastElement();
+	}
+	
 	public String buenasPeliculas(String pDirector) {
 
 		String mensajeFinal="";
 		float promedioTotal=0;
-		int numero=0;
+		int numeroTotal=0;
+		int numeroBuenas=0;
 		for (int i = 0; i < datos.darTamano(); i++) {
 			Pelicula peli=(Pelicula)datos.darElemento(i);
 			if(peli.darDirector().darNombre().equalsIgnoreCase(pDirector)) {
 				promedioTotal+=peli.getVotoPromedio();
-				numero++;
+				numeroTotal++;
 				if(peli.getVotoPromedio()>=6) 
 				{
-					mensajeFinal+=(""+peli.darId()+";"+ peli.getTituloOriginal()+";"+peli.getGenres()+";"+peli.getFechaLanzamiento()+";"+ peli.darNombreActores() +"\n");
+					numeroBuenas++;
+					mensajeFinal+="Pelicula "+numeroBuenas+": \n";
+					mensajeFinal+=("	ID: "+peli.darId()+"\n	Titulo Original: "+ peli.getTituloOriginal()+"\n	Generos: "+peli.getGenres()+"\n	Fecha de lanzamiento: "+peli.getFechaLanzamiento()+"\n	Actores: "+ peli.darNombreActores() +"\n	Votación: "+peli.getVotoPromedio()+"\n");
 				}
 			}
 		}
-		mensajeFinal+=("Promedio total: "+promedioTotal/numero);
+		if(numeroTotal>0) {
+		mensajeFinal=("\nEl director "+pDirector+" tiene "+numeroBuenas+" buenas peliculas.\nEl promedio de la votación de todas las peliculas encontradas de dicho director fue: "+promedioTotal/numeroTotal+"\nLas buenas películas se muestran a continuación:\n")+mensajeFinal;
+		}else {
+			mensajeFinal="El director "+pDirector+" no se encuentra en los registros.";
+		}
 		return mensajeFinal;
 	}
-
 }

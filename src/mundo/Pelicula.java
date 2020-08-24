@@ -128,10 +128,10 @@ public class Pelicula implements Comparable<Pelicula>{
 		return editor;
 	}
 	public String darNombreActores() {
-		String s="";
-		for (int i = 0; i < actores.length; i++) {
+		String s=actores[0].darNombre();
+		for (int i = 1; i < actores.length; i++) {
 			if(actores[i]!=null) {
-				s+=actores[i].darNombre()+"-";
+				s+=", "+actores[i].darNombre();
 			}
 		}
 		return s;
