@@ -1,6 +1,5 @@
 package model.data_structures;
 
-import java.lang.reflect.Array;
 
 /**
  * 2019-01-23
@@ -27,7 +26,8 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	 * Construir un arreglo con la capacidad maxima inicial.
 	 * @param max Capacidad maxima inicial
 	 */
-	
+
+	@SuppressWarnings("unchecked")
 	public ArregloDinamico(int max )
 	{
 		elementos = (T[]) new Comparable[max];
@@ -35,6 +35,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		tamanoAct = 0;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void agregar( T dato )
 	{
 		if ( tamanoAct == tamanoMax )
@@ -65,7 +66,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 
 		return elementos[i];
 	}
-	
+
 
 	public T buscar(T dato) {
 		// TODO implementar
@@ -106,5 +107,48 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		return este;
 	}
 
+	@SuppressWarnings("unchecked")
+	public void insertElement(T element, int pos) {
+		--pos;
+		T[] nuevo= (T[]) new Comparable[tamanoAct+1];
+		boolean encontre=false;
+		for (int i = 0; i < nuevo.length; ++i) {
+			if(!encontre && i!=pos) {
+				nuevo[i]=elementos[i];
+			}else if(!encontre && i==pos) {
+				nuevo[i]=element;
+				encontre=true;
+			}else {
+				nuevo[i]=elementos[i-1];
+			}
+		}
+		elementos=nuevo;
+		++tamanoAct;
+	}
+	
+	public T removeLast() {
+		T este=elementos[tamanoAct];
+		elementos[tamanoAct-1]=null;
+		tamanoAct--;
+		return este;
+	}
+	
+	public T lastElement() {
+		return elementos[tamanoAct-1];
+	}
+
+	public int isPresent(T element) {
+		for(int i=0; i<tamanoAct;i++) {
+			if(elementos[i].compareTo(element)==0)
+				return i+1;
+		}
+		return -1;
+	}
+	
+	public void changeInfo(int pos, T element) {
+		--pos;
+		elementos[pos]=element;
+	}
+	
 
 }

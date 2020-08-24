@@ -1,7 +1,7 @@
 package model.logic;
-
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
+import mundo.Pelicula;
 
 /**
  * Definicion del modelo del mundo
@@ -12,14 +12,14 @@ public class Modelo{
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	public IArregloDinamico datos;
+	public IArregloDinamico<Pelicula> datos;
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico(7);
+		datos = new ArregloDinamico<Pelicula>(7);
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class Modelo{
 	 */
 	public Modelo(int capacidad)
 	{
-		datos = new ArregloDinamico(capacidad);
+		datos = new ArregloDinamico<Pelicula>(capacidad);
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class Modelo{
 	 * Requerimiento de agregar dato
 	 * @param dato
 	 */
-	public void agregar(Integer dato)
+	public void agregar(Pelicula dato)
 	{	
 		datos.agregar(dato);
 	}
@@ -55,9 +55,9 @@ public class Modelo{
 	 * @return 
 	 * @return dato encontrado
 	 */
-	public Integer buscar(int dato)
+	public Pelicula buscar(Pelicula dato)
 	{
-		return (Integer) datos.buscar(dato);
+		return  datos.buscar(dato);
 	}
 	
 	/**
@@ -65,10 +65,33 @@ public class Modelo{
 	 * @param dato Dato a eliminar
 	 * @return dato eliminado
 	 */
-	public Integer eliminar(Integer dato)
+	public Pelicula eliminar(Pelicula dato)
 	{
-		return (Integer) datos.eliminar(dato);
+		return datos.eliminar(dato);
 	}
+	
+	public void asd(Pelicula numero, int pos) {
+		 datos.insertElement(numero, pos);
+	}
+	
+	public String buenasPeliculas(String pDirector) {
 
+		String mensajeFinal="";
+		float promedioTotal=0;
+		int numero=0;
+		for (int i = 0; i < datos.darTamano(); i++) {
+			Pelicula peli=(Pelicula)datos.darElemento(i);
+			if(peli.darDirector().darNombre().equalsIgnoreCase(pDirector)) {
+				promedioTotal+=peli.getVotoPromedio();
+				numero++;
+				if(peli.getVotoPromedio()>=6) 
+				{
+					mensajeFinal+=(""+peli.darId()+";"+ peli.getTituloOriginal()+";"+peli.getGenres()+";"+peli.getFechaLanzamiento()+";"+ peli.darNombreActores() +"\n");
+				}
+			}
+		}
+		mensajeFinal+=("Promedio total: "+promedioTotal/numero);
+		return mensajeFinal;
+	}
 
 }

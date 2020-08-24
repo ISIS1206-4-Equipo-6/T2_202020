@@ -16,4 +16,5 @@ module T1_202020 {
 
 	requires junit;
 	requires opencsv;
+	requires org.apache.commons.lang3;
 }

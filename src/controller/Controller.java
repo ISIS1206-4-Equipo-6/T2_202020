@@ -1,8 +1,19 @@
 package controller;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
+
 import model.logic.Modelo;
+import mundo.Pelicula;
+import mundo.Persona;
+import mundo.Persona.Rol;
 import view.View;
 
 public class Controller {
@@ -20,79 +31,78 @@ public class Controller {
 	public Controller ()
 	{
 		view = new View();
-		modelo = new Modelo();
+		modelo = new Modelo(2000);
 	}
 		
-	public void run() 
+	public void run() throws CsvValidationException, IOException 
 	{
 		Scanner lector = new Scanner(System.in);
 		boolean fin = false;
-		Integer dato = -1;
-		Integer respuesta = -1;
-
 		while( !fin ){
 			view.printMenu();
-
 			int option = lector.nextInt();
+			lector.nextLine();
 			switch(option){
-				case 1:
-					view.printMessage("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
-				    int capacidad = lector.nextInt();
-				    modelo = new Modelo(capacidad); 
-				    view.printMessage("Arreglo Dinamico creado");
-				    view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
 
-				case 2:
-					view.printMessage("--------- \nDar cadena (simple) a ingresar: ");
-					dato = lector.nextInt();
-					modelo.agregar(dato);
-					view.printMessage("Dato agregado");
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
-
-				case 3:
-					view.printMessage("--------- \nDar cadena (simple) a buscar: ");
-					dato = lector.nextInt();
-					respuesta = (Integer) modelo.buscar(dato);
-					if ( respuesta != null)
-					{
-						view.printMessage("Dato encontrado: "+ respuesta);
-					}
-					else
-					{
-						view.printMessage("Dato NO encontrado");
-					}
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
-
-				case 4:
-					view.printMessage("--------- \nDar cadena (simple) a eliminar: ");
-					dato = lector.nextInt();
-					respuesta = (Integer) modelo.eliminar(dato);
-					if ( respuesta != null)
-					{
-						view.printMessage("Dato eliminado "+ respuesta);
-					}
-					else
-					{
-						view.printMessage("Dato NO eliminado");							
-					}
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
-
-				case 5: 
-					view.printMessage("--------- \nContenido del Arreglo: ");
-					view.printModelo(modelo);
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;	
-					
-				case 6: 
+				case 3: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
 					fin = true;
 					break;	
-
+					
+				case 1:
+					long time=System.nanoTime();
+					view.printMessage("-- La información se esta cargando --");
+					CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
+					CSVReader reader = new CSVReaderBuilder(new FileReader("data/MoviesCastingRaw-small.csv")).withCSVParser(csvParser).build();
+					CSVReader reader2 = new CSVReaderBuilder(new FileReader("data/SmallMoviesDetailsCleaned.csv")).withCSVParser(csvParser).build();
+					String [] nextLine;
+					String [] nextLine2;
+					//TODO
+					reader.readNext();
+					reader2.readNext();
+					while ((nextLine = reader.readNext()) != null && (nextLine2 = reader2.readNext()) != null) {
+						String id=nextLine[0];
+						int numeroActores=Integer.parseInt(nextLine[11]);
+						int numeroDirectores=Integer.parseInt(nextLine[14]);
+						int numeroProductores=Integer.parseInt(nextLine[16].trim());
+						String nombrePelicula=nextLine2[5].trim();
+						float votacion=Float.parseFloat(nextLine2[17].trim());
+						int duracion=Integer.parseInt(nextLine2[12].trim());
+						String generos=nextLine2[2].trim();
+						String idioma=nextLine2[4].trim();
+						String fecha=nextLine2[10].trim();
+						Persona[] actores=((numeroActores>=5)?new Persona[5]:new Persona[numeroActores]);
+						//TODO revisar for crear actores
+						int i=0;
+						int pos=1;
+						while(i<actores.length) {
+							String nombre=nextLine[pos];
+							if(!nombre.equals("none")) {
+								actores[i]=new Persona(nombre, Integer.parseInt(nextLine[pos+1]),  Rol.ACTOR);
+								i++;
+							}
+							pos+=2;
+							if(pos>10) {
+								break;
+							}
+						}
+						Persona director=new Persona(nextLine[12], Integer.parseInt(nextLine[13]), Rol.DIRECTOR);
+						Persona productor=new Persona(nextLine[15], 0, Rol.PRODUCTOR);
+						Persona guionista=new Persona(nextLine[17], 0, Rol.GUIONISTA);
+						Persona editor=new Persona(nextLine[18], 0, Rol.EDITOR);
+						
+						modelo.agregar(new Pelicula(Integer.parseInt(id), numeroActores, numeroDirectores, numeroProductores, actores, director, productor, guionista, editor, nombrePelicula, votacion, duracion, generos, idioma, fecha));
+					}
+					view.printMessage("-- La información se ha cargado exitosamente. Tiempo tomado: "+((System.nanoTime()-time)/1000000)+" milisegundos -- \n");
+					view.printMessage("---------- !BIENVENIDO¡ ----------");
+					view.printMessage("-- Bxplorando la magia del cine -- ");
+					break;
+				case 2:
+					view.printMessage("Inserte el nombre del director a buscar: ");
+					String nombreDirector=lector.nextLine();
+					System.out.println(modelo.buenasPeliculas(nombreDirector));
+					break;
 				default: 
 					view.printMessage("--------- \n Opcion Invalida !! \n---------");
 					break;

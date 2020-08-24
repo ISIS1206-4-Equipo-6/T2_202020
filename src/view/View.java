@@ -4,37 +4,34 @@ import model.logic.Modelo;
 
 public class View
 {
-	    /**
-	     * Metodo constructor
-	     */
-	    public View()
-	    {
+	/**
+	 * Metodo constructor
+	 */
+	public View()
+	{
 
-	    }
+	}
 
-		public void printMenu()
+	public void printMenu()
+	{
+		System.out.println("Por favor inserte una opción: ");
+		System.out.println("1. Cargar información");
+		System.out.println("2. Encontrar buenas peliculas de un director");
+		System.out.println("3. Exit");
+	}
+
+	public void printMessage(String mensaje) {
+
+		System.out.println(mensaje);
+	}
+
+	public void printModelo(Modelo modelo)
+	{
+		// TODO implementar
+		int tam = modelo.darTamano();
+		for(int i=0; i<tam; i++)
 		{
-			System.out.println("1. Crear Arreglo Dinamico de Strings");
-			System.out.println("2. Agregar String");
-			System.out.println("3. Buscar String");
-			System.out.println("4. Eliminar String");
-			System.out.println("5. Imprimir el Arreglo");
-			System.out.println("6. Exit");
-			System.out.println("Dar el numero de opcion a resolver, luego oprimir tecla Return: (e.g., 1):");
+			printMessage(" "+modelo.datos.darElemento(i).getLenguajeOriginal());
 		}
-
-		public void printMessage(String mensaje) {
-
-			System.out.println(mensaje);
-		}
-
-		public void printModelo(Modelo modelo)
-		{
-			// TODO implementar
-			int tam = modelo.darTamano();
-			for(int i=0; i<tam; i++)
-			{
-				printMessage(" "+modelo.datos.darElemento(i));
-			}
-		}
+	}
 }

@@ -42,5 +42,7 @@ public interface IArregloDinamico  <T extends Comparable<T>> {
 	 * @return dato eliminado
 	 */
 	T eliminar( T dato );
+	
+	public void insertElement(T dato, int pos);
 
 }
