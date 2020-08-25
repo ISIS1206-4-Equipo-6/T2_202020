@@ -54,10 +54,11 @@ public class Controller {
 					modelo=new Modelo(2000);
 					modelo.cargarArchivos();
 					view.printMessage("-- La información se ha cargado exitosamente. Tiempo tomado: "+((System.nanoTime()-time)/1000000)+" milisegundos -- \n");
-					view.printMessage("---------- !BIENVENIDO¡ ----------");
-					view.printMessage("-- Explorando la magia del cine -- ");
+					view.printMessage("----------------- !BIENVENIDO¡ -----------------");
+					view.printMessage("--------- Explorando la magia del cine --------- ");
 					Pelicula primera=modelo.firstElement();
 					Pelicula segunda=modelo.lastElement();
+					view.printMessage("Se han encontrado "+modelo.darCapacidad()+" registros de películas.");
 					view.printMessage("Primera película cargada:\n	ID: "+primera.darId()+"\n	Nombre: "+primera.darTituloOriginal()+"\n	Director: "+primera.darDirector().darNombre()+"\n	Votación: "+primera.darVotoPromedio()+"\n	Duración: "+primera.darDuracion()+" minutos\n	Generos: "+primera.darGenres()+"\n	Idioma: "+primera.darLenguajeOriginal());
 					view.printMessage("Ultima película cargada:\n	ID: "+segunda.darId()+"\n	Nombre: "+segunda.darTituloOriginal()+"\n	Director: "+segunda.darDirector().darNombre()+"\n	Votación: "+segunda.darVotoPromedio()+"\n	Duración: "+segunda.darDuracion()+" minutos\n	Generos: "+segunda.darGenres()+"\n	Idioma: "+segunda.darLenguajeOriginal());
 					break;

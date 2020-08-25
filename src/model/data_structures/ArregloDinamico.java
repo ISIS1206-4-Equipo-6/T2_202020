@@ -44,6 +44,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	}
 
 	public T darElemento(int i) {
+		--i;
 		return elementos[i];
 	}
 	
@@ -152,4 +153,5 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	{
 		return elementos[0];
 	}
+	
 }

@@ -49,7 +49,6 @@ public class Modelo{
 		CSVReader reader2 = new CSVReaderBuilder(new FileReader("data/SmallMoviesDetailsCleaned.csv")).withCSVParser(csvParser).build();
 		String [] nextLine;
 		String [] nextLine2;
-		//TODO
 		reader.readNext();
 		reader2.readNext();
 		while ((nextLine = reader.readNext()) != null && (nextLine2 = reader2.readNext()) != null) {
@@ -62,7 +61,6 @@ public class Modelo{
 			String pIdioma=nextLine2[4].strip();
 			String pFecha=nextLine2[10].strip();
 			Persona[] pActores=((pNumeroActores>=5)?new Persona[5]:new Persona[pNumeroActores]);
-			//TODO revisar for crear actores
 			int i=0;
 			int pos=1;
 			while(i<pActores.length) {
@@ -104,14 +102,12 @@ public class Modelo{
 	public Pelicula lastElement() {
 		return datos.lastElement();
 	}
-	
 	public String buenasPeliculas(String pDirector) {
-
 		String mensajeFinal="";
 		float promedioTotal=0;
 		int numeroTotal=0;
 		int numeroBuenas=0;
-		for (int i = 0; i < datos.darTamano(); i++) {
+		for (int i = 1; i <= datos.darTamano(); i++) {
 			Pelicula peli=(Pelicula)datos.darElemento(i);
 			if(peli.darDirector().darNombre().equalsIgnoreCase(pDirector)) {
 				promedioTotal+=peli.darVotoPromedio();
