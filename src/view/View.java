@@ -31,7 +31,7 @@ public class View
 		int tam = modelo.darTamano();
 		for(int i=0; i<tam; i++)
 		{
-			printMessage(" "+modelo.datos.darElemento(i).getLenguajeOriginal());
+			printMessage(" "+modelo.datos.darElemento(i).darLenguajeOriginal());
 		}
 	}
 }

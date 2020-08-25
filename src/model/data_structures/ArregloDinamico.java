@@ -35,11 +35,23 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		tamanoAct = 0;
 	}
 
+	public int darCapacidad() {
+		return tamanoMax;
+	}
+
+	public int darTamano() {
+		return tamanoAct;
+	}
+
+	public T darElemento(int i) {
+		return elementos[i];
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void agregar( T dato )
 	{
 		if ( tamanoAct == tamanoMax )
-		{  // caso de arreglo lleno (aumentar tamaNo)
+		{
 			tamanoMax = 2 * tamanoMax;
 			T [ ] copia = elementos;
 			elementos = (T[])new Comparable[tamanoMax];
@@ -51,60 +63,6 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		}	
 		elementos[tamanoAct] = dato;
 		tamanoAct++;
-	}
-
-	public int darCapacidad() {
-		return tamanoMax;
-	}
-
-	public int darTamano() {
-		return tamanoAct;
-	}
-
-	public T darElemento(int i) {
-		// TODO implementar
-
-		return elementos[i];
-	}
-
-
-	public T buscar(T dato) {
-		// TODO implementar
-		// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-		T toFind = null;
-		for (T t: elementos){
-			if ( t!=null && t.compareTo(dato)==0){
-				toFind=t;
-				break;
-			}
-		}
-		return toFind;
-	}
-
-	public T eliminar(T dato) {
-		// TODO implementar
-		// Recomendacion: Usar el criterio de comparacion natural (metodo compareTo()) definido en Strings.
-		T este = null;
-		Boolean eliminado=false;
-		for(int i =0; i< tamanoAct; i++)
-		{
-			if (elementos[i]!=null && elementos[i].compareTo(dato)==0 && eliminado==false)
-			{
-				este = elementos[i];
-				eliminado=true;
-				continue;
-			}
-			if(este!=null)
-			{
-				elementos[i-1] = elementos[i];
-				// Si el elemento a mover es el ultimo se convierte en null.
-				if(i == tamanoAct-1) {
-					elementos[i] = null;
-					tamanoAct--;
-				}
-			}
-		}
-		return este;
 	}
 
 	@SuppressWarnings("unchecked")

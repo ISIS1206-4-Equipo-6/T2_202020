@@ -33,6 +33,11 @@ public class Controller {
 		view = new View();
 	}
 		
+	public Modelo darModelo()
+	{
+		return modelo;
+	}
+		
 	public void run() throws CsvValidationException, IOException 
 	{
 		Scanner lector = new Scanner(System.in);
@@ -42,77 +47,34 @@ public class Controller {
 			int option = lector.nextInt();
 			lector.nextLine();
 			switch(option){
-
-				case 3: 
-					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
-					lector.close();
-					fin = true;
-					break;	
-					
 				case 1:
 					long time=System.nanoTime();
-					modelo = new Modelo(2000);
 					view.printMessage("----------------------- La información se esta cargando -----------------------");
-					CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
-					CSVReader reader = new CSVReaderBuilder(new FileReader("data/MoviesCastingRaw-small.csv")).withCSVParser(csvParser).build();
-					CSVReader reader2 = new CSVReaderBuilder(new FileReader("data/SmallMoviesDetailsCleaned.csv")).withCSVParser(csvParser).build();
-					String [] nextLine;
-					String [] nextLine2;
-					//TODO
-					reader.readNext();
-					reader2.readNext();
-					while ((nextLine = reader.readNext()) != null && (nextLine2 = reader2.readNext()) != null) {
-						String id=nextLine[0];
-						int numeroActores=Integer.parseInt(nextLine[11]);
-						int numeroDirectores=Integer.parseInt(nextLine[14]);
-						int numeroProductores=Integer.parseInt(nextLine[16].strip());
-						String nombrePelicula=nextLine2[5].strip();
-						float votacion=Float.parseFloat(nextLine2[17].strip());
-						int duracion=Integer.parseInt(nextLine2[12].strip());
-						String generos=nextLine2[2].strip();
-						String idioma=nextLine2[4].strip();
-						String fecha=nextLine2[10].strip();
-						Persona[] actores=((numeroActores>=5)?new Persona[5]:new Persona[numeroActores]);
-						//TODO revisar for crear actores
-						int i=0;
-						int pos=1;
-						while(i<actores.length) {
-							String nombre=nextLine[pos];
-							if(!nombre.equals("none")) {
-								actores[i]=new Persona(nombre, Integer.parseInt(nextLine[pos+1]),  Rol.ACTOR);
-								i++;
-							}
-							pos+=2;
-							if(pos>10) {
-								break;
-							}
-						}
-						Persona director=new Persona(nextLine[12], Integer.parseInt(nextLine[13]), Rol.DIRECTOR);
-						Persona productor=new Persona(nextLine[15], 0, Rol.PRODUCTOR);
-						Persona guionista=new Persona(nextLine[17], 0, Rol.GUIONISTA);
-						Persona editor=new Persona(nextLine[18], 0, Rol.EDITOR);
-						
-						modelo.agregar(new Pelicula(Integer.parseInt(id), numeroActores, numeroDirectores, numeroProductores, actores, director, productor, guionista, editor, nombrePelicula, votacion, duracion, generos, idioma, fecha));
-					}
+					modelo=null;
+					modelo=new Modelo(2000);
+					modelo.cargarArchivos();
 					view.printMessage("-- La información se ha cargado exitosamente. Tiempo tomado: "+((System.nanoTime()-time)/1000000)+" milisegundos -- \n");
 					view.printMessage("---------- !BIENVENIDO¡ ----------");
 					view.printMessage("-- Explorando la magia del cine -- ");
 					Pelicula primera=modelo.firstElement();
 					Pelicula segunda=modelo.lastElement();
-					view.printMessage("Primera película cargada:\n	ID: "+primera.darId()+"\n	Nombre: "+primera.getTituloOriginal()+"\n	Director: "+primera.darDirector().darNombre()+"\n	Votación: "+primera.getVotoPromedio()+"\n	Duración: "+primera.getDuracion()+" minutos\n	Generos: "+primera.getGenres()+"\n	Idioma: "+primera.getLenguajeOriginal());
-					view.printMessage("Ultima película cargada:\n	ID: "+segunda.darId()+"\n	Nombre: "+segunda.getTituloOriginal()+"\n	Director: "+segunda.darDirector().darNombre()+"\n	Votación: "+segunda.getVotoPromedio()+"\n	Duración: "+segunda.getDuracion()+" minutos\n	Generos: "+segunda.getGenres()+"\n	Idioma: "+segunda.getLenguajeOriginal());
-
+					view.printMessage("Primera película cargada:\n	ID: "+primera.darId()+"\n	Nombre: "+primera.darTituloOriginal()+"\n	Director: "+primera.darDirector().darNombre()+"\n	Votación: "+primera.darVotoPromedio()+"\n	Duración: "+primera.darDuracion()+" minutos\n	Generos: "+primera.darGenres()+"\n	Idioma: "+primera.darLenguajeOriginal());
+					view.printMessage("Ultima película cargada:\n	ID: "+segunda.darId()+"\n	Nombre: "+segunda.darTituloOriginal()+"\n	Director: "+segunda.darDirector().darNombre()+"\n	Votación: "+segunda.darVotoPromedio()+"\n	Duración: "+segunda.darDuracion()+" minutos\n	Generos: "+segunda.darGenres()+"\n	Idioma: "+segunda.darLenguajeOriginal());
 					break;
 				case 2:
 					view.printMessage("Inserte el nombre del director a buscar: ");
 					String nombreDirector=lector.nextLine();
 					System.out.println(modelo.buenasPeliculas(nombreDirector.strip()));
 					break;
+				case 3: 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+					lector.close();
+					fin = true;
+					break;	
 				default: 
 					view.printMessage("------------------- \n ¡Opcion Invalida! \n-------------------");
 					break;
 			}
-		}
-		
+		}	
 	}	
 }

@@ -1,7 +1,18 @@
 package model.logic;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
+
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
 import mundo.Pelicula;
+import mundo.Persona;
+import mundo.Persona.Rol;
 
 /**
  * Definicion del modelo del mundo
@@ -31,6 +42,44 @@ public class Modelo{
 		datos = new ArregloDinamico<Pelicula>(capacidad);
 	}
 	
+	
+	public void cargarArchivos() throws CsvValidationException, IOException {
+		CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
+		CSVReader reader = new CSVReaderBuilder(new FileReader("data/MoviesCastingRaw-small.csv")).withCSVParser(csvParser).build();
+		CSVReader reader2 = new CSVReaderBuilder(new FileReader("data/SmallMoviesDetailsCleaned.csv")).withCSVParser(csvParser).build();
+		String [] nextLine;
+		String [] nextLine2;
+		//TODO
+		reader.readNext();
+		reader2.readNext();
+		while ((nextLine = reader.readNext()) != null && (nextLine2 = reader2.readNext()) != null) {
+			int pId=Integer.parseInt(nextLine[0]);
+			int pNumeroActores=Integer.parseInt(nextLine[11]);
+			String pTituloOriginal=nextLine2[5].strip();
+			float pVotoPromedio=Float.parseFloat(nextLine2[17].strip());
+			int pDuracion=Integer.parseInt(nextLine2[12].strip());
+			String pGeneros=nextLine2[2].strip();
+			String pIdioma=nextLine2[4].strip();
+			String pFecha=nextLine2[10].strip();
+			Persona[] pActores=((pNumeroActores>=5)?new Persona[5]:new Persona[pNumeroActores]);
+			//TODO revisar for crear actores
+			int i=0;
+			int pos=1;
+			while(i<pActores.length) {
+				String nombre=nextLine[pos];
+				if(!nombre.equals("none")) {
+					pActores[i]=new Persona(nombre, Integer.parseInt(nextLine[pos+1]),  Rol.ACTOR);
+					i++;
+				}
+				pos+=2;
+				if(pos>10) {
+					break;
+				}
+			}
+			Persona pDirector=new Persona(nextLine[12], Integer.parseInt(nextLine[13]), Rol.DIRECTOR);
+			agregar(new Pelicula(pId, pNumeroActores, pActores, pDirector, pTituloOriginal, pVotoPromedio, pDuracion, pGeneros, pIdioma, pFecha));
+		}
+	}
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
@@ -39,39 +88,13 @@ public class Modelo{
 	{
 		return datos.darTamano();
 	}
-
-	/**
-	 * Requerimiento de agregar dato
-	 * @param dato
-	 */
-	public void agregar(Pelicula dato)
-	{	
-		datos.agregar(dato);
-	}
 	
-	/**
-	 * Requerimiento buscar dato
-	 * @param dato Dato a buscar
-	 * @return 
-	 * @return dato encontrado
-	 */
-	public Pelicula buscar(Pelicula dato)
-	{
-		return  datos.buscar(dato);
-	}
+	public int darCapacidad() {
+		return datos.darCapacidad();
+	}	
 	
-	/**
-	 * Requerimiento eliminar dato
-	 * @param dato Dato a eliminar
-	 * @return dato eliminado
-	 */
-	public Pelicula eliminar(Pelicula dato)
-	{
-		return datos.eliminar(dato);
-	}
-	
-	public void asd(Pelicula numero, int pos) {
-		 datos.insertElement(numero, pos);
+	public int isPresent(Pelicula element) {
+		return datos.isPresent(element);
 	}
 	
 	public Pelicula firstElement() {
@@ -91,13 +114,13 @@ public class Modelo{
 		for (int i = 0; i < datos.darTamano(); i++) {
 			Pelicula peli=(Pelicula)datos.darElemento(i);
 			if(peli.darDirector().darNombre().equalsIgnoreCase(pDirector)) {
-				promedioTotal+=peli.getVotoPromedio();
+				promedioTotal+=peli.darVotoPromedio();
 				numeroTotal++;
-				if(peli.getVotoPromedio()>=6) 
+				if(peli.darVotoPromedio()>=6) 
 				{
 					numeroBuenas++;
 					mensajeFinal+="Pelicula "+numeroBuenas+": \n";
-					mensajeFinal+=("	ID: "+peli.darId()+"\n	Titulo Original: "+ peli.getTituloOriginal()+"\n	Generos: "+peli.getGenres()+"\n	Fecha de lanzamiento: "+peli.getFechaLanzamiento()+"\n	Actores: "+ peli.darNombreActores() +"\n	Votación: "+peli.getVotoPromedio()+"\n");
+					mensajeFinal+=("	ID: "+peli.darId()+"\n	Titulo Original: "+ peli.darTituloOriginal()+"\n	Generos: "+peli.darGenres()+"\n	Fecha de lanzamiento: "+peli.darFechaLanzamiento()+"\n	Actores: "+ peli.darNombreActores() +"\n	Votación: "+peli.darVotoPromedio()+"\n");
 				}
 			}
 		}
@@ -107,5 +130,10 @@ public class Modelo{
 			mensajeFinal="El director "+pDirector+" no se encuentra en los registros.";
 		}
 		return mensajeFinal;
+	}
+	
+	public void agregar(Pelicula dato)
+	{	
+		datos.agregar(dato);
 	}
 }
