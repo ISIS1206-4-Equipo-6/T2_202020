@@ -27,7 +27,6 @@ public class View
 
 	public void printModelo(Modelo modelo)
 	{
-		// TODO implementar
 		int tam = modelo.darTamano();
 		for(int i=0; i<tam; i++)
 		{

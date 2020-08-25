@@ -40,7 +40,6 @@ public class TestModelo {
 
 	@Test
 	public void testDarTamano() throws CsvValidationException, IOException {
-		// TODO
 		setUp1();
 		assertTrue("El tamaño no corresponde",modelo.darTamano()==0);
 		setUp2();
@@ -49,7 +48,6 @@ public class TestModelo {
 
 	@Test
 	public void testAgregar() throws CsvValidationException, IOException {
-		// TODO Completar la prueba
 		setUp1();
 		Persona[] actores=new Persona[1];
 		Persona director=new Persona("Director1", 1, Rol.DIRECTOR);
@@ -67,14 +65,14 @@ public class TestModelo {
 		assertTrue("El tamaño no cambio", modelo.darTamano()==2);
 		assertTrue("El elemento no se encontró", modelo.isPresent(nueva2)!=-1);
 	}
-	
+	@Test
 	public void testDarCapacidad() throws CsvValidationException, IOException {
 		setUp1();
 		assertTrue("El tamaño no corresponde",modelo.darCapacidad()==100);
 		setUp2();
 		assertTrue("El tamaño no corresponde",modelo.darTamano()==2000);
 	}
-
+	@Test
 	public void isPresent() {
 		setUp1();
 		Persona[] actores=new Persona[1];
@@ -91,7 +89,7 @@ public class TestModelo {
 		assertTrue("El elemento no se encontró", modelo.isPresent(nueva)!=-1);
 		assertTrue("El elemento no se encontró", modelo.isPresent(nueva2)!=-1);
 	}
-	
+	@Test
 	public void firstElement() {
 		setUp1();
 		Persona[] actores=new Persona[1];
@@ -107,7 +105,7 @@ public class TestModelo {
 		modelo.agregar(nueva2);
 		assertTrue("El elemento no se encontró", modelo.firstElement().equals(nueva));
 	}
-	
+	@Test
 	public void lastElement() {
 		setUp1();
 		Persona[] actores=new Persona[1];

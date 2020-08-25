@@ -67,26 +67,18 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	}
 
 	@SuppressWarnings("unchecked")
-	public void insertElement(T element, int pos) {
-		--pos;
+	public void addFirst(T element) {
 		T[] nuevo= (T[]) new Comparable[tamanoAct+1];
-		boolean encontre=false;
-		for (int i = 0; i < nuevo.length; ++i) {
-			if(!encontre && i!=pos) {
-				nuevo[i]=elementos[i];
-			}else if(!encontre && i==pos) {
-				nuevo[i]=element;
-				encontre=true;
-			}else {
+		nuevo[0]=element;
+		for (int i = 1; i < nuevo.length; ++i) {
 				nuevo[i]=elementos[i-1];
-			}
 		}
 		elementos=nuevo;
-		++tamanoAct;
+		tamanoAct++;
 	}
 
 	public T removeLast() {
-		T este=elementos[tamanoAct];
+		T este=elementos[tamanoAct-1];
 		elementos[tamanoAct-1]=null;
 		tamanoAct--;
 		return este;
@@ -108,23 +100,19 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		--pos;
 		elementos[pos]=element;
 	}
-	public void addFirst( T dato )
+	public void insertElement( T dato, int pos )
 	{
-		if ( tamanoAct == tamanoMax )
-			// caso de arreglo lleno (aumentar tamaNo)
-			tamanoMax = 2 * tamanoMax;
-
-		T [ ] copia = elementos;
-		elementos = (T[])new Comparable[tamanoMax];
-		//añade el dato en primera casilla
-		elementos[0] = dato;
-
-		for ( int i = 0; i < tamanoAct; ++i)
+		pos--;
+		T anterior=elementos[pos];
+		T ultimo=elementos[tamanoAct-1];
+		for ( int i = pos+1; i < tamanoAct; i++)
 		{
-			elementos[i+1] = copia[i];
-		} 
-
-		tamanoAct++;
+			T temp=elementos[pos];
+			elementos[pos] = anterior;
+			anterior=temp;
+		}
+		elementos[pos]=dato;
+		agregar(ultimo);
 	}
 	public void exchange(int pos1, int pos2 )
 	{
@@ -153,5 +141,4 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	{
 		return elementos[0];
 	}
-	
 }

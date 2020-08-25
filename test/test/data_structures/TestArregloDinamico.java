@@ -21,7 +21,7 @@ public class TestArregloDinamico {
 	}
 
 	public void setUp2() {
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < TAMANO; i++) {
 			arreglo.agregar(i);
 		}
 	}
@@ -41,45 +41,45 @@ public class TestArregloDinamico {
 			assertTrue((Integer)arreglo.darElemento(i+1)==i);
 		}
 		
-	}	
+	}
+	@Test
 	public void testInsertElement() {
 		setUp2();
 		arreglo.insertElement(777, 5);
-		assertTrue((Integer)arreglo.darElemento(4)==5);
+		assertTrue((Integer)arreglo.darElemento(5)==777);
 		assertTrue(arreglo.darTamano()==101);
-		assertEquals(arreglo.isPresent(5), 5);
 		arreglo.insertElement(820, 5);
-		assertTrue((Integer)arreglo.darElemento(4)==820);
+		assertTrue((Integer)arreglo.darElemento(5)==820);
 		assertTrue(arreglo.darTamano()==102);
-		assertEquals(arreglo.isPresent(820), 820);
+		assertEquals(arreglo.isPresent(820), 5);
 	}
-	
+	@Test
 	public void testRemoveLast() {
 		setUp2();
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
 			arreglo.removeLast();
-			assertTrue(arreglo.darTamano()==200-(i+1));
-			assertEquals(arreglo.isPresent(200-(i+1)), -1);
+			assertTrue(arreglo.darTamano()==100-(i+1));
+			assertEquals(arreglo.isPresent(100-(i+1)), -1);
 		}
 	}
-	
+	@Test
 	public void testLastElement() {
 		setUp2();
-		assertTrue((Integer)arreglo.lastElement()==199);
+		assertTrue((Integer)arreglo.lastElement()==99);
 	}
-	
+	@Test
 	public void testIsPresent() {
 		setUp2();
 		for (int i = 0; i < arreglo.darTamano(); i++) {
-			assertTrue((Integer)arreglo.isPresent(i+1)==i);	
+			assertTrue((Integer)arreglo.isPresent(i)==i+1);	
 		}
 		assertTrue((Integer)arreglo.isPresent(300)==-1);
 	}
-	
+	@Test
 	public void testChangeInfo() {
 		setUp2();
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
-			arreglo.changeInfo(i+i, 0);
+			arreglo.changeInfo(i+1, 0);
 		}
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
 			assertTrue((Integer)arreglo.darElemento(i+1)==0);
@@ -100,15 +100,15 @@ public class TestArregloDinamico {
 	public void testRemoveFirst() {
 		setUp2();
 		arreglo.removeFirst();
-		assertEquals(arreglo.isPresent(1),-1);
-		assertEquals(arreglo.firstElement(),2);
+		assertEquals(arreglo.isPresent(0),-1);
+		assertEquals(arreglo.firstElement(),1);
 		assertEquals(arreglo.darTamano(),99);
 	}
  
 	@Test
 	public void testFirstElement() {
 		setUp2();
-		assertEquals(arreglo.firstElement(),1);
+		assertEquals(arreglo.firstElement(),0);
 	}
 	
 	@Test

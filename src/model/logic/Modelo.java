@@ -24,7 +24,7 @@ public class Modelo{
 	 * Atributos del modelo del mundo
 	 */
 	public IArregloDinamico<Pelicula> datos;
-	
+
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
@@ -32,7 +32,7 @@ public class Modelo{
 	{
 		datos = new ArregloDinamico<Pelicula>(7);
 	}
-	
+
 	/**
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
@@ -41,8 +41,8 @@ public class Modelo{
 	{
 		datos = new ArregloDinamico<Pelicula>(capacidad);
 	}
-	
-	
+
+
 	public void cargarArchivos() throws CsvValidationException, IOException {
 		CSVParser csvParser = new CSVParserBuilder().withSeparator(';').build();
 		CSVReader reader = new CSVReaderBuilder(new FileReader("data/MoviesCastingRaw-small.csv")).withCSVParser(csvParser).build();
@@ -52,14 +52,7 @@ public class Modelo{
 		reader.readNext();
 		reader2.readNext();
 		while ((nextLine = reader.readNext()) != null && (nextLine2 = reader2.readNext()) != null) {
-			int pId=Integer.parseInt(nextLine[0]);
 			int pNumeroActores=Integer.parseInt(nextLine[11]);
-			String pTituloOriginal=nextLine2[5].strip();
-			float pVotoPromedio=Float.parseFloat(nextLine2[17].strip());
-			int pDuracion=Integer.parseInt(nextLine2[12].strip());
-			String pGeneros=nextLine2[2].strip();
-			String pIdioma=nextLine2[4].strip();
-			String pFecha=nextLine2[10].strip();
 			Persona[] pActores=((pNumeroActores>=5)?new Persona[5]:new Persona[pNumeroActores]);
 			int i=0;
 			int pos=1;
@@ -75,7 +68,7 @@ public class Modelo{
 				}
 			}
 			Persona pDirector=new Persona(nextLine[12], Integer.parseInt(nextLine[13]), Rol.DIRECTOR);
-			agregar(new Pelicula(pId, pNumeroActores, pActores, pDirector, pTituloOriginal, pVotoPromedio, pDuracion, pGeneros, pIdioma, pFecha));
+			agregar(new Pelicula(Integer.parseInt(nextLine[0]), pNumeroActores, pActores, pDirector, nextLine2[5], Float.parseFloat(nextLine2[17]), Integer.parseInt(nextLine2[12]), nextLine2[2], nextLine2[4], nextLine2[10]));
 		}
 	}
 	/**
@@ -86,19 +79,19 @@ public class Modelo{
 	{
 		return datos.darTamano();
 	}
-	
+
 	public int darCapacidad() {
 		return datos.darCapacidad();
 	}	
-	
+
 	public int isPresent(Pelicula element) {
 		return datos.isPresent(element);
 	}
-	
+
 	public Pelicula firstElement() {
 		return datos.firstElement();
 	}
-	
+
 	public Pelicula lastElement() {
 		return datos.lastElement();
 	}
@@ -121,13 +114,13 @@ public class Modelo{
 			}
 		}
 		if(numeroTotal>0) {
-		mensajeFinal=("\nEl director "+pDirector+" tiene "+numeroBuenas+" buenas peliculas.\nEl promedio de la votación de todas las peliculas encontradas de dicho director fue: "+promedioTotal/numeroTotal+"\nLas buenas películas se muestran a continuación:\n")+mensajeFinal;
+			mensajeFinal=("\nEl director "+pDirector+" tiene "+numeroBuenas+" buenas peliculas.\nEl promedio de la votación de todas las peliculas encontradas de dicho director fue: "+promedioTotal/numeroTotal+"\nLas buenas películas se muestran a continuación:\n")+mensajeFinal;
 		}else {
 			mensajeFinal="El director "+pDirector+" no se encuentra en los registros.";
 		}
 		return mensajeFinal;
 	}
-	
+
 	public void agregar(Pelicula dato)
 	{	
 		datos.agregar(dato);

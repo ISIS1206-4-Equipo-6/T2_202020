@@ -67,10 +67,11 @@ public class Pelicula implements Comparable<Pelicula>{
 		}
 		return s;
 	}
-	
+
 	@Override
 	public int compareTo(Pelicula o) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+
 } 

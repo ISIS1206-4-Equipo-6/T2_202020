@@ -21,14 +21,29 @@ public interface IArregloDinamico  <T extends Comparable<T>> {
 	 */
 	T darElemento( int i );
 	
-	T firstElement();
+	void agregar(T dato);
+	
+	void insertElement(T dato, int pos);
+	
+	T removeFirst();
+
+	T removeLast();
 	
 	T lastElement();
-	
+
 	int isPresent(T dato);
 	
-	public void agregar(T dato);
+	void changeInfo(int i, T dato);
 	
-	public void insertElement(T dato, int pos);
+	void addFirst(T dato);
+	
+	void exchange(int i, int j);
+	
+	T firstElement();
+	
+	boolean isEmpty();
+	
+	
+	
 
 }
