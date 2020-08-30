@@ -15,9 +15,10 @@ public class View
 	public void printMenu()
 	{
 		System.out.println("Por favor inserte una opción: ");
-		System.out.println("1. Cargar información");
-		System.out.println("2. Encontrar buenas peliculas de un director");
-		System.out.println("3. Exit");
+		System.out.println("1. Cargar información en lista encadenada");
+		System.out.println("2. Cargar información en arreglo dinámico");
+		System.out.println("3. Encontrar las 20 películas con peor promedio de votación (vote_average)");
+		System.out.println("4. Exit");
 	}
 
 	public void printMessage(String mensaje) {
@@ -27,10 +28,10 @@ public class View
 
 	public void printModelo(Modelo modelo)
 	{
-		int tam = modelo.darTamano();
+		int tam = modelo.size();
 		for(int i=0; i<tam; i++)
 		{
-			printMessage(" "+modelo.datos.darElemento(i).darLenguajeOriginal());
+			printMessage(" "+modelo.datos.getElement(i).darLenguajeOriginal());
 		}
 	}
 }

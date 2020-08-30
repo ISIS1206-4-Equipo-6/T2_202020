@@ -9,7 +9,8 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 
 import model.data_structures.ArregloDinamico;
-import model.data_structures.IArregloDinamico;
+import model.data_structures.Lista;
+import model.data_structures.ListaEncadenada;
 import mundo.Pelicula;
 import mundo.Persona;
 import mundo.Persona.Rol;
@@ -23,23 +24,20 @@ public class Modelo{
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	public IArregloDinamico<Pelicula> datos;
-
-	/**
-	 * Constructor del modelo del mundo con capacidad predefinida
-	 */
-	public Modelo()
-	{
-		datos = new ArregloDinamico<Pelicula>(7);
-	}
+	public Lista<Pelicula> datos;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad dada
 	 * @param tamano
 	 */
-	public Modelo(int capacidad)
+	public Modelo(int estructura, int capacidad)
 	{
-		datos = new ArregloDinamico<Pelicula>(capacidad);
+
+		if(estructura==0) {
+			datos = new ArregloDinamico<Pelicula>(capacidad);
+		}else if(estructura==1) {
+			datos=new ListaEncadenada<Pelicula>();
+		}
 	}
 
 
@@ -68,21 +66,17 @@ public class Modelo{
 				}
 			}
 			Persona pDirector=new Persona(nextLine[12], Integer.parseInt(nextLine[13]), Rol.DIRECTOR);
-			agregar(new Pelicula(Integer.parseInt(nextLine[0]), pNumeroActores, pActores, pDirector, nextLine2[5], Float.parseFloat(nextLine2[17]), Integer.parseInt(nextLine2[12]), nextLine2[2], nextLine2[4], nextLine2[10]));
+			addLast(new Pelicula(Integer.parseInt(nextLine[0]), pNumeroActores, pActores, pDirector, nextLine2[5], Float.parseFloat(nextLine2[17]), Integer.parseInt(nextLine2[12]), nextLine2[2], nextLine2[4], nextLine2[10]));
 		}
 	}
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
 	 * @return numero de elementos presentes en el modelo
 	 */
-	public int darTamano()
+	public int size()
 	{
-		return datos.darTamano();
+		return datos.size();
 	}
-
-	public int darCapacidad() {
-		return datos.darCapacidad();
-	}	
 
 	public int isPresent(Pelicula element) {
 		return datos.isPresent(element);
@@ -100,8 +94,8 @@ public class Modelo{
 		float promedioTotal=0;
 		int numeroTotal=0;
 		int numeroBuenas=0;
-		for (int i = 1; i <= datos.darTamano(); i++) {
-			Pelicula peli=(Pelicula)datos.darElemento(i);
+		for (int i = 1; i <= datos.size(); i++) {
+			Pelicula peli=(Pelicula)datos.getElement(i);
 			if(peli.darDirector().darNombre().equalsIgnoreCase(pDirector)) {
 				promedioTotal+=peli.darVotoPromedio();
 				numeroTotal++;
@@ -120,9 +114,23 @@ public class Modelo{
 		}
 		return mensajeFinal;
 	}
+	
+	public String peorPromedio(int numero) {
+		String mensajeFinal="";
+		int numeroBuenas=0;
+		Comparable[] arreglo=datos.darArreglo();
+		ShellSort.sort(arreglo);
+		for (int i = 0; i < numero; i++) {
+			Pelicula peli=(Pelicula)arreglo[i];
+			numeroBuenas++;
+			mensajeFinal+="Pelicula "+numeroBuenas+": \n";
+			mensajeFinal+=("	ID: "+peli.darId()+"\n	Titulo Original: "+ peli.darTituloOriginal()+"\n	Generos: "+peli.darGenres()+"\n	Fecha de lanzamiento: "+peli.darFechaLanzamiento()+"\n	Actores: "+ peli.darNombreActores() +"\n	Votación: "+peli.darVotoPromedio()+"\n");
+		}
+		return mensajeFinal;
+	}
 
-	public void agregar(Pelicula dato)
+	public void addLast(Pelicula dato)
 	{	
-		datos.agregar(dato);
+		datos.addLast(dato);
 	}
 }

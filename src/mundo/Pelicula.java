@@ -59,10 +59,14 @@ public class Pelicula implements Comparable<Pelicula>{
 		return director;
 	}
 	public String darNombreActores() {
-		String s=actores[0].darNombre();
-		for (int i = 1; i < actores.length; i++) {
+		String s="";
+		for (int i = 0; i < actores.length; i++) {
 			if(actores[i]!=null) {
-				s+=", "+actores[i].darNombre();
+				if(i==actores.length-1) {
+					s+=actores[i];
+				}else {
+					s+=actores[i].darNombre()+", ";
+				}
 			}
 		}
 		return s;
@@ -70,7 +74,7 @@ public class Pelicula implements Comparable<Pelicula>{
 
 	@Override
 	public int compareTo(Pelicula o) {
-		return 0;
+		return (this.votoPromedio==o.votoPromedio)?0:(this.votoPromedio<o.votoPromedio?-1:1);
 	}
 	
 

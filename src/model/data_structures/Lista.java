@@ -31,4 +31,6 @@ public interface Lista <T extends Comparable<T>>{
 	void changeInfo(int pos, T elem);
 	
 	void imprimir();
+	
+	T[] darArreglo();
 }

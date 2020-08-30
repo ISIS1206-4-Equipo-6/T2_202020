@@ -22,7 +22,7 @@ public class TestArregloDinamico {
 
 	public void setUp2() {
 		for (int i = 0; i < TAMANO; i++) {
-			arreglo.agregar(i);
+			arreglo.addLast(i);
 		}
 	}
 
@@ -31,14 +31,14 @@ public class TestArregloDinamico {
 		setUp1();
 		assertTrue(arreglo!=null);
 		assertEquals(arreglo.darCapacidad(),100);
-		assertEquals(arreglo.darTamano(),0);
+		assertEquals(arreglo.size(),0);
 	}
 
 	@Test
-	public void testDarElemento() {
+	public void testgetElement() {
 		setUp2();
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
-			assertTrue((Integer)arreglo.darElemento(i+1)==i);
+			assertTrue((Integer)arreglo.getElement(i+1)==i);
 		}
 		
 	}
@@ -46,11 +46,11 @@ public class TestArregloDinamico {
 	public void testInsertElement() {
 		setUp2();
 		arreglo.insertElement(777, 5);
-		assertTrue((Integer)arreglo.darElemento(5)==777);
-		assertTrue(arreglo.darTamano()==101);
+		assertTrue((Integer)arreglo.getElement(5)==777);
+		assertTrue(arreglo.size()==101);
 		arreglo.insertElement(820, 5);
-		assertTrue((Integer)arreglo.darElemento(5)==820);
-		assertTrue(arreglo.darTamano()==102);
+		assertTrue((Integer)arreglo.getElement(5)==820);
+		assertTrue(arreglo.size()==102);
 		assertEquals(arreglo.isPresent(820), 5);
 	}
 	@Test
@@ -58,7 +58,7 @@ public class TestArregloDinamico {
 		setUp2();
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
 			arreglo.removeLast();
-			assertTrue(arreglo.darTamano()==100-(i+1));
+			assertTrue(arreglo.size()==100-(i+1));
 			assertEquals(arreglo.isPresent(100-(i+1)), -1);
 		}
 	}
@@ -70,7 +70,7 @@ public class TestArregloDinamico {
 	@Test
 	public void testIsPresent() {
 		setUp2();
-		for (int i = 0; i < arreglo.darTamano(); i++) {
+		for (int i = 0; i < arreglo.size(); i++) {
 			assertTrue((Integer)arreglo.isPresent(i)==i+1);	
 		}
 		assertTrue((Integer)arreglo.isPresent(300)==-1);
@@ -82,7 +82,7 @@ public class TestArregloDinamico {
 			arreglo.changeInfo(i+1, 0);
 		}
 		for (int i = 0; i < arreglo.darCapacidad(); i++) {
-			assertTrue((Integer)arreglo.darElemento(i+1)==0);
+			assertTrue((Integer)arreglo.getElement(i+1)==0);
 		}
 
 	}
@@ -92,7 +92,7 @@ public class TestArregloDinamico {
 		arreglo.addFirst(999);
 		assertEquals(arreglo.isPresent(999),1);
 		assertEquals(arreglo.firstElement(),999);
-		assertEquals(arreglo.darTamano(),101);
+		assertEquals(arreglo.size(),101);
 	}
 	
 
@@ -102,7 +102,7 @@ public class TestArregloDinamico {
 		arreglo.removeFirst();
 		assertEquals(arreglo.isPresent(0),-1);
 		assertEquals(arreglo.firstElement(),1);
-		assertEquals(arreglo.darTamano(),99);
+		assertEquals(arreglo.size(),99);
 	}
  
 	@Test
@@ -121,11 +121,11 @@ public class TestArregloDinamico {
 	@Test
 	public void testExchange() {
 		setUp2();
-		int d1=(int) arreglo.darElemento(10);
-		int d2=(int) arreglo.darElemento(90);
+		int d1=(int) arreglo.getElement(10);
+		int d2=(int) arreglo.getElement(90);
 		arreglo.exchange(10, 90);
-		assertEquals(arreglo.darElemento(10),d2);
-		assertEquals(arreglo.darElemento(90),d1);
+		assertEquals(arreglo.getElement(10),d2);
+		assertEquals(arreglo.getElement(90),d1);
 	}
 
 }

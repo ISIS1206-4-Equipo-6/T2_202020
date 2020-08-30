@@ -8,7 +8,7 @@ package model.data_structures;
  * @author Fernando De la Rosa
  *
  */
-public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinamico<T>  {
+public class ArregloDinamico<T extends Comparable<T>>  implements Lista<T>  {
 	/** 
 	 * Capacidad maxima del arreglo
 	 */
@@ -39,17 +39,17 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 		return tamanoMax;
 	}
 
-	public int darTamano() {
+	public int size() {
 		return tamanoAct;
 	}
 
-	public T darElemento(int i) {
+	public T getElement(int i) {
 		--i;
 		return elementos[i];
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void agregar( T dato )
+	public void addLast( T dato )
 	{
 		if ( tamanoAct == tamanoMax )
 		{
@@ -112,7 +112,7 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 			anterior=temp;
 		}
 		elementos[pos]=dato;
-		agregar(ultimo);
+		addLast(ultimo);
 	}
 	public void exchange(int pos1, int pos2 )
 	{
@@ -140,5 +140,28 @@ public class ArregloDinamico<T extends Comparable<T>>  implements IArregloDinami
 	public T firstElement()
 	{
 		return elementos[0];
+	}
+
+
+	@Override
+	public void imprimir() {
+		for (int i = 0; i <tamanoAct; i++) {
+			System.out.println(elementos[i]+"\n");
+		}
+	}
+
+	@Override
+	public T deleteElement(int pos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T[] darArreglo() {
+		T[] respuesta= (T[]) new Comparable[tamanoAct];
+		for (int i = 0; i < tamanoAct ; i++) {
+			respuesta[i]=elementos[i];
+		}
+		return respuesta;
 	}
 }

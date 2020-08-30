@@ -1,5 +1,7 @@
 package model.data_structures;
 
+import mundo.Pelicula;
+
 public class ListaEncadenada <T extends Comparable<T>> implements Lista<T>{
 
 	private Node<T> head;
@@ -187,9 +189,21 @@ public class ListaEncadenada <T extends Comparable<T>> implements Lista<T>{
 	public void imprimir() {
 		Node<T> actual=head;
 		while(actual!=null) {
-			System.out.println(actual.getElement());
+			Pelicula s=(Pelicula) actual.getElement();
+			System.out.println(s.darVotoPromedio());
 			actual=actual.getNext();
 		}
+	}
+
+	@Override
+	public T[] darArreglo() {
+		T[] respuesta=(T[]) new Comparable[tamano];
+		Node<T> actual=head;
+		for (int i = 0; i < tamano; i++) {
+			respuesta[i]=actual.getElement();
+			actual=actual.getNext();
+		}
+		return respuesta;
 	}
 
 }
